@@ -1,3 +1,4 @@
+-- insere producao com a quantia passada pelo parâmetro
 CREATE OR REPLACE PROCEDURE p_insert_producao(num int) IS 
  linha NUMBER := 0;
 BEGIN
@@ -13,6 +14,7 @@ END;
 
 --EXECUTE insertProducao(200);
 
+-- deleta producao, caso o peso esteza abaixo da media
 CREATE OR REPLACE PROCEDURE p_delete_media IS
   CURSOR pega_delete IS
     SELECT * FROM producao;
@@ -30,6 +32,7 @@ CREATE OR REPLACE PROCEDURE p_delete_media IS
     COMMIT; 
 END;
 
+-- tranfere produtos para a tabela maior_produto, caso o peso esteja abaixo da média
 CREATE OR REPLACE PROCEDURE p_transfere_produto(linha int) as
 cursor cur_select IS
  select * from producao p where p.cod_linha = linha AND flg_lido = 'n';
@@ -48,6 +51,7 @@ cursor cur_select IS
   COMMIT;
 END;
 
+-- mostra resultados obtido através das funcoes
  CREATE OR REPLACE PROCEDURE p_resultado AS
   media NUMBER := 0;
   maior INT := 0;
@@ -65,5 +69,27 @@ BEGIN
   SELECT produto INTO ultimo FROM (SELECT produto FROM producao ORDER BY produto DESC) WHERE ROWNUM = 1;
   INSERT INTO resultado (dat_data, num_media, num_maior, num_menor, num_soma, nom_primeiro, nom_ultimo)
     VALUES (SYSDATE, media, maior, menor, soma, primeiro, ultimo);
+  COMMIT;
+END;
+
+-- Insere na producao v2
+CREATE OR REPLACE PROCEDURE p_insert_producao(num NUMBER) AS
+  linha NUMBER := 0;
+  valor NUMBER := 0;
+BEGIN
+  LOOP
+    BEGIN
+      valor := Dbms_Random.Value(1,5);
+      INSERT INTO producao(cod_linha, cod_produto, num_serie, peso, dat_data) VALUES (
+        (Trunc(Dbms_Random.Value(1,5), 0)),
+        (Trunc(Dbms_Random.Value(1,5), 0)),
+        (Trunc(DBMS_RANDOM.Value(1,999999), 0)),
+        (Trunc(Dbms_Random.Value(1,500), 2)),
+        SYSDATE
+      );
+        linha := linha + 1;
+        EXIT WHEN linha = num;
+    END;
+  END LOOP;
   COMMIT;
 END;
