@@ -149,7 +149,6 @@ namespace FabricaWeb
         public void BtnInsereClick(object sender, EventArgs e)
         {
             controleBtn(1);
-
             LimpaCampos();
 
             txtSeqProduto.Enabled = false;
@@ -169,7 +168,6 @@ namespace FabricaWeb
         public void BtnAtualizarClick(object sender, EventArgs e)
         {
             controleBtn(2);
-
             LimpaCampos();
 
             txtSeqProduto.Enabled = true;
@@ -189,7 +187,6 @@ namespace FabricaWeb
         public void BtnDeletarClick(object sender, EventArgs e)
         {
             controleBtn(3);
-
             LimpaCampos();
 
             txtSeqProduto.Enabled = false;

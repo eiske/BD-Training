@@ -216,7 +216,6 @@ namespace FabricaWeb
         public void BtnAtualizarClick(object sender, EventArgs e)
         {
             controleBtn(2);
-
             LimpaCampos();
 
             txtSeqProducao.Enabled = true;
