@@ -15,17 +15,6 @@ namespace FabricaWeb
         public DbDataReader reader;
         Conexao conn = new Conexao();
 
-        protected void Page_Load(object sender, EventArgs e)
-        {
-            var listaProducao = ConsultaProducao();
-
-            if (listaProducao != null && listaProducao.Count > 0)
-            {
-                this.grdDados.DataSource = listaProducao;
-                this.grdDados.DataBind();
-            }
-        }
-
         public string Select()
         {
             if (CheckBox1.Checked)
@@ -36,6 +25,20 @@ namespace FabricaWeb
             {
                 return "SELECT * FROM PRODUCAO ORDER BY SEQ_PRODUCAO";
             }
+        }
+
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            
+            var listaProducao = ConsultaProducao();
+
+            if (listaProducao != null && listaProducao.Count > 0)
+            {
+                this.grdDados.DataSource = listaProducao;
+                this.grdDados.DataBind();
+            }
+            
+            DataFim.SelectedDate = DateTime.Today;
         }
 
         #region *** COMANDO ***
@@ -84,7 +87,7 @@ namespace FabricaWeb
         {
             Response.Clear();
             Response.Buffer = true;
-            Response.AddHeader("contet-disposition", "attachment;filename=GridViewExport.csv");
+            Response.AddHeader("contet-disposition", string.Format("attachment;filename=GridViewExport.csv"));
             Response.Charset = "";
             Response.ContentType = "application/text";
 
